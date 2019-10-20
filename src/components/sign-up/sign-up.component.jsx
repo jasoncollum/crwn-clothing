@@ -58,7 +58,7 @@ class SignUp extends React.Component {
         const { displayName, email, password, confirmPassword } = this.state;
         return (
             <div className='sign-up'>
-                <h1 className='title'>I do not have an account</h1>
+                <h2 className='title'>I do not have an account</h2>
                 <span>Sign up with your email and password</span>
                 <form className='sign-up-form' onSubmit={this.handleSubmit}>
                     <FormInput
@@ -66,7 +66,7 @@ class SignUp extends React.Component {
                         name='displayName'
                         value={displayName}
                         onChange={this.handleChange}
-                        label='Display Name'
+                        label='display name'
                         required
                     />
                     <FormInput
@@ -74,7 +74,7 @@ class SignUp extends React.Component {
                         name='email'
                         value={email}
                         onChange={this.handleChange}
-                        label='Email'
+                        label='email'
                         required
                     />
                     <FormInput
@@ -82,7 +82,7 @@ class SignUp extends React.Component {
                         name='password'
                         value={password}
                         onChange={this.handleChange}
-                        label='Password'
+                        label='password'
                         required
                     />
                     <FormInput
@@ -90,7 +90,7 @@ class SignUp extends React.Component {
                         name='confirmPassword'
                         value={confirmPassword}
                         onChange={this.handleChange}
-                        label='Confirm Password'
+                        label='confirm password'
                         required
                     />
                     <CustomButton type='submit'> SIGN UP </CustomButton>
