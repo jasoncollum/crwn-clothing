@@ -29,15 +29,26 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
                 email,
                 createdAt,
                 ...additionalData
-            })
+            });
         } catch (error) {
             console.log('Error creating user', error.message);
         }
     }
 
-    console.log(userAuth);
     return userRef;
-}
+};
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+
+    const batch = firestore.batch();  // setup initial data in firestore
+    objectsToAdd.forEach(obj => {
+        const newDocRef = collectionRef.doc();  // generates uid
+        batch.set(newDocRef, obj)  // sets value = obj
+    });
+
+    return await batch.commit();
+};
 
 firebase.initializeApp(config);
 
