@@ -29,14 +29,44 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
                 email,
                 createdAt,
                 ...additionalData
-            })
+            });
         } catch (error) {
             console.log('Error creating user', error.message);
         }
     }
 
-    console.log(userAuth);
     return userRef;
+};
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+
+    const batch = firestore.batch();  // setup initial data in firestore
+    objectsToAdd.forEach(obj => {
+        const newDocRef = collectionRef.doc();  // generates uid
+        batch.set(newDocRef, obj)  // sets value = obj
+    });
+
+    return await batch.commit();
+};
+
+export const convertCollectionsSnapshotToMap = (collections) => {
+    const transformedCollection = collections.docs.map(doc => {
+        const { title, items } = doc.data(); //destructure off of doc.data
+
+        return {    //create new collection object including routeName and id
+            routeName: encodeURI(title.toLowerCase()),  //set routeName
+            id: doc.id, //set id
+            title,  //add title
+            items   //add items
+        };
+    });
+
+    // reduce transformedCollection to an object (key = title, value = collection)
+    return transformedCollection.reduce((accumulator, collection) => {
+        accumulator[collection.title.toLowerCase()] = collection;
+        return accumulator;
+    }, {})
 }
 
 firebase.initializeApp(config);
